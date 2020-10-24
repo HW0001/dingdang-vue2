@@ -25,9 +25,6 @@ import Vue from "vue";
 import {
     Component
 } from 'vue-property-decorator';
-import {
-    createLogger
-} from 'vuex';
 
 @Component
 export default class Home extends Vue {
@@ -39,25 +36,37 @@ export default class Home extends Vue {
             txt = (button as HTMLButtonElement).textContent || "";
             if (isNaN(parseInt(txt)) && txt !== ".") {
                 if (txt === "删除") {
-                    this.output.length === 1 && (this.output = "0");
-                    this.output.length > 1 && (this.output = this.output.substring(0, this.output.length - 1));
+                    this.remove()
                 } else if (txt === "清空") {
                     this.output = "0";
+                } else {
+                    this.enter();
                 }
             } else {
-                this.output === "0" && txt === "0" && (txt = "")
-                this.output === "." && txt === "." && (txt = "")
-                this.output.includes(".") && txt === "." && (txt = "")
-                if (this.output === "0") {
-                    this.output = txt;
-                } else if (this.output === ".") {
-                    this.output = "0." + txt
-                } else {
-                    this.output += txt
-                }
+                this.changeValue(txt)
             }
         }
 
+    }
+    changeValue(txt: string) {
+        if (this.output.length === 16) return;
+        this.output === "." && txt === "." && (txt = "")
+        this.output === "0" && txt === "." && (txt = "0.")
+        this.output.includes(".") && txt === "." && (txt = "")
+        if (this.output === "0") {
+            this.output = txt;
+        } else if (this.output === ".") {
+            this.output = "0." + txt
+        } else {
+            this.output += txt
+        }
+    }
+    remove() {
+        this.output.length === 1 && (this.output = "0");
+        this.output.length > 1 && (this.output = this.output.slice(0, -1));
+    }
+    enter() {
+        alert(this.output)
     }
 }
 </script>
