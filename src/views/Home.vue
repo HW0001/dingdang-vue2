@@ -3,8 +3,8 @@
     <div class="page">
         <key-page />
         <types :type.sync="type" />
-        <notes />
-        <tags />
+        <notes :note-value.sync="noteVaule" />
+        <tags :currentTags.sync="currentTags" :selectedTags="selectedTags" />
     </div>
 </layout>
 </template>
@@ -19,7 +19,10 @@ export default {
     name: "Home",
     data() {
         return {
-            type: "-"
+            type: "-",
+            noteVaule: "",
+            currentTags: ["衣", "食", "住", "行"],
+            selectedTags: []
         }
     },
     components: {
