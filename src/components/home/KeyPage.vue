@@ -23,11 +23,13 @@
 <script lang="ts">
 import Vue from "vue";
 import {
-    Component
+    Component,
+    Prop
 } from 'vue-property-decorator';
 
 @Component
 export default class Home extends Vue {
+    @Prop(Number) money!: number
     output = "0"
     operation(e: MouseEvent) {
         const button = e.target;
@@ -66,7 +68,7 @@ export default class Home extends Vue {
         this.output.length > 1 && (this.output = this.output.slice(0, -1));
     }
     enter() {
-        alert(this.output)
+        this.$emit("update:money", parseFloat(this.output))
     }
 }
 </script>
