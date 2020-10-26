@@ -27,6 +27,7 @@ type MoneyObject = {
     noteVaule: string;
     selectedTags: string[];
     money: number;
+    saveTime ? : Date
 }
 
 @Component({
@@ -40,20 +41,15 @@ type MoneyObject = {
 })
 export default class Home extends Vue {
     currentTags: string[] = ["衣", "食", "住", "行"]
-    recordList: MoneyObject[] = [];
+    recordList: MoneyObject[] = JSON.parse(localStorage.getItem("moneyobj") || "[]");
     record: MoneyObject = {
         type: "-",
         noteVaule: "",
         selectedTags: [],
         money: 0
     }
-    mounted() {
-        const list = localStorage.getItem("moneyobj");
-        if (list) {
-            this.recordList.splice(0, 0, ...JSON.parse(list));
-        }
-    }
     saveRecord() {
+        this.record.saveTime = new Date();
         this.recordList.push({
             ...this.record
         })
