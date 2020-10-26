@@ -1,7 +1,7 @@
 <template>
 <layout>
     <div class="page">
-        <key-page :money.sync="record.money" />
+        <key-page :money.sync="record.money" @submit="saveRecord" />
         <types :type.sync="record.type" />
         <notes :note-value.sync="record.noteVaule" />
         <tags :currentTags.sync="currentTags" :selectedTags="record.selectedTags" />
@@ -18,10 +18,11 @@ import Tags from "@/components/home/Tags.vue";
 
 import Vue from "vue";
 import {
-    Component
+    Component,
+    Watch
 } from 'vue-property-decorator';
 
-interface MoneyObject {
+type MoneyObject = {
     type: string;
     noteVaule: string;
     selectedTags: string[];
@@ -39,11 +40,32 @@ interface MoneyObject {
 })
 export default class Home extends Vue {
     currentTags: string[] = ["衣", "食", "住", "行"]
+    recordList: MoneyObject[] = [];
     record: MoneyObject = {
         type: "-",
         noteVaule: "",
         selectedTags: [],
         money: 0
+    }
+    mounted() {
+        const list = localStorage.getItem("moneyobj");
+        if (list) {
+            this.recordList.splice(0, 0, ...JSON.parse(list));
+        }
+    }
+    saveRecord() {
+        this.recordList.push({
+            ...this.record
+        })
+        alert("保存成功！")
+
+    }
+    @Watch("recordList")
+    onRecordListChange(newList: MoneyObject[]) {
+        localStorage.setItem("moneyobj", JSON.stringify(newList))
+        this.$set(this.record, "noteVaule", "")
+        this.$set(this.record, "selectedTags", [])
+        this.$set(this.record, "money", 0)
     }
 }
 </script>

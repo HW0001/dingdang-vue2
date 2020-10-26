@@ -30,7 +30,7 @@ import {
 @Component
 export default class Home extends Vue {
     @Prop(Number) money!: number
-    output = "0"
+    output = this.money.toString();
     operation(e: MouseEvent) {
         const button = e.target;
         let txt = '0'
@@ -69,6 +69,8 @@ export default class Home extends Vue {
     }
     enter() {
         this.$emit("update:money", parseFloat(this.output))
+        this.$emit("submit")
+        this.output = "0"
     }
 }
 </script>
