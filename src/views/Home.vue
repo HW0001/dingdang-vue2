@@ -4,7 +4,7 @@
         <key-page :money.sync="record.money" @submit="saveRecord" />
         <types :type.sync="record.type" />
         <notes :note-value.sync="record.noteVaule" />
-        <tags :currentTags.sync="currentTags" :selectedTags="record.selectedTags" />
+        <tags :selectedTags="record.selectedTags" />
     </div>
 </layout>
 </template>
@@ -17,32 +17,28 @@ import Notes from "@/components/home/Notes.vue";
 import Tags from "@/components/home/Tags.vue";
 import Vue from "vue";
 import {
-    Component,
-    Watch
-} from 'vue-property-decorator';
+    Component
+} from "vue-property-decorator";
 
-import recordModel from '@/models/recordModel'
+import recordModel from "@/models/recordModel";
 recordModel.fetch();
-
 @Component({
     components: {
         Tags,
         Notes,
         Types,
         KeyPage,
-        Layout
-    }
+        Layout,
+    },
 })
 export default class Home extends Vue {
-    currentTags: string[] = ["衣", "食", "住", "行"]
     recordList = recordModel.data;
     record = recordModel.reset();
     saveRecord() {
         this.record.saveTime = new Date();
         recordModel.add(this.record);
         this.record = recordModel.reset();
-        alert("保存成功！")
-
+        alert("保存成功！");
     }
 }
 </script>

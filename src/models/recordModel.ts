@@ -25,7 +25,7 @@ const recordModel: RecordModel={
         this.save();
     },
     save () {
-    localStorage.setItem("moneyobj", JSON.stringify(this.data));
+    localStorage.setItem(localStorageKey, JSON.stringify(this.data));
     },
     clone (obj) {
         return JSON.parse(JSON.stringify(obj))

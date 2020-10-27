@@ -1,7 +1,9 @@
 <template>
 <div class="tags">
     <ul>
-        <li v-for="(item,index) in newtags" :key="index" @click="toggle(item)" :class="{selected:selectTags.indexOf(item)>-1}">{{item}}</li>
+        <li v-for="(item, index) in currentTags" :key="index" @click="toggle(item)" :class="{ selected: selectTags.indexOf(item) > -1 }">
+            {{ item }}
+        </li>
     </ul>
     <button @click="addTag">新增标签</button>
 </div>
@@ -9,37 +11,35 @@
 
 <script lang="ts">
 import Vue from "vue";
+import tagsModel from "@/models/tagsModel";
+tagsModel.fetch();
+
 import {
     Component,
     PropSync
-} from 'vue-property-decorator';
+} from "vue-property-decorator";
 
 @Component
 export default class Types extends Vue {
-    @PropSync('currentTags', {
-        type: Array
-    }) newtags!: string[];
+    currentTags = tagsModel.data;
 
-    @PropSync('selectedTags', {
-        type: Array
-    }) selectTags!: string[];
+    @PropSync("selectedTags", {
+        type: Array,
+    })
+    selectTags!: string[];
 
     toggle(tag: string) {
         const index = this.selectTags.indexOf(tag);
         if (index > -1) {
-            this.selectTags.splice(index, 1)
+            this.selectTags.splice(index, 1);
         } else {
             this.selectTags.push(tag);
         }
     }
     addTag() {
-        // if (this.newtags.length === 15) {
-        //     alert("亲，你加的的标签太多了！，请删除一些。")
-        //     return;
-        // }
         const tag = window.prompt("请输入标签名：");
         if (tag) {
-            this.$emit("update:currentTags", [...this.newtags, tag])
+            tagsModel.add(tag);
         }
     }
 }
@@ -69,7 +69,7 @@ export default class Types extends Vue {
             margin-bottom: 8px;
 
             &.selected {
-                background-color: darken($color: $bg, $amount:50%);
+                background-color: darken($color: $bg, $amount: 50%);
             }
         }
     }
