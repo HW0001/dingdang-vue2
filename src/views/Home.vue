@@ -15,20 +15,14 @@ import KeyPage from "@/components/home/KeyPage.vue";
 import Types from "@/components/home/Types.vue";
 import Notes from "@/components/home/Notes.vue";
 import Tags from "@/components/home/Tags.vue";
-
 import Vue from "vue";
 import {
     Component,
     Watch
 } from 'vue-property-decorator';
 
-type MoneyObject = {
-    type: string;
-    noteVaule: string;
-    selectedTags: string[];
-    money: number;
-    saveTime ? : Date
-}
+import recordModel from '@/models/recordModel'
+recordModel.fetch();
 
 @Component({
     components: {
@@ -41,27 +35,14 @@ type MoneyObject = {
 })
 export default class Home extends Vue {
     currentTags: string[] = ["衣", "食", "住", "行"]
-    recordList: MoneyObject[] = JSON.parse(localStorage.getItem("moneyobj") || "[]");
-    record: MoneyObject = {
-        type: "-",
-        noteVaule: "",
-        selectedTags: [],
-        money: 0
-    }
+    recordList = recordModel.data;
+    record = recordModel.reset();
     saveRecord() {
         this.record.saveTime = new Date();
-        this.recordList.push({
-            ...this.record
-        })
+        recordModel.add(this.record);
+        this.record = recordModel.reset();
         alert("保存成功！")
 
-    }
-    @Watch("recordList")
-    onRecordListChange(newList: MoneyObject[]) {
-        localStorage.setItem("moneyobj", JSON.stringify(newList))
-        this.$set(this.record, "noteVaule", "")
-        this.$set(this.record, "selectedTags", [])
-        this.$set(this.record, "money", 0)
     }
 }
 </script>
@@ -70,7 +51,6 @@ export default class Home extends Vue {
 .page {
     display: flex;
     flex-direction: column-reverse;
-    flex-wrap: wrap;
     justify-content: flex-start;
     height: 100%;
 }

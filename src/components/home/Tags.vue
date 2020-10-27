@@ -33,10 +33,10 @@ export default class Types extends Vue {
         }
     }
     addTag() {
-        if (this.newtags.length === 15) {
-            alert("亲，你加的的标签太多了！，请删除一些。")
-            return;
-        }
+        // if (this.newtags.length === 15) {
+        //     alert("亲，你加的的标签太多了！，请删除一些。")
+        //     return;
+        // }
         const tag = window.prompt("请输入标签名：");
         if (tag) {
             this.$emit("update:currentTags", [...this.newtags, tag])
