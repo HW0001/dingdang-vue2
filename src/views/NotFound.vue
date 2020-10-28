@@ -1,13 +1,14 @@
 <template>
-<div>404</div>
+<div>
+    404
+    <router-link to="/home">返回首页</router-link>
+</div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 export default {
-name: "NotFound"
-}
+    name: "NotFound",
+};
 </script>
 
-<style lang='scss' scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -2,7 +2,7 @@
 <div class="tags">
     <ul>
         <li v-for="(item, index) in currentTags" :key="index" @click="toggle(item)" :class="{ selected: selectTags.indexOf(item) > -1 }">
-            {{ item }}
+            {{ item.name }}
         </li>
     </ul>
     <button @click="addTag">新增标签</button>
@@ -39,7 +39,7 @@ export default class Types extends Vue {
     addTag() {
         const tag = window.prompt("请输入标签名：");
         if (tag) {
-            tagsModel.add(tag);
+            alert(tagsModel.add(tag).message);
         }
     }
 }
