@@ -6,8 +6,7 @@
             <icon name="icon-right" />
         </router-link>
     </div>
-    <button>增加标签</button>
-    <router-view />
+    <button class="add-btn">新建标签</button>
 </layout>
 </template>
 
@@ -50,5 +49,17 @@ export default class Labels extends Vue {
         width: 24px;
         height: 32px;
     }
+}
+
+.add-btn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+    color: #fff;
+    border: none;
+    background-color: rgb(118, 118, 118);
+    padding: 8px 16px;
+    border-radius: 4px;
 }
 </style>

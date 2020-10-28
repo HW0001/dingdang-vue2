@@ -103,6 +103,7 @@ export default class EditLabel extends Vue {
         border: none;
         padding: 6px 16px;
         font-size: 16px;
+        border-radius: 4px;
     }
 }
 </style>
