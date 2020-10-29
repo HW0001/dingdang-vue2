@@ -35,7 +35,6 @@ export default class Home extends Vue {
     recordList = recordModel.data;
     record = recordModel.reset();
     saveRecord() {
-        this.record.saveTime = new Date();
         recordModel.add(this.record);
         this.record = recordModel.reset();
         alert("保存成功！");

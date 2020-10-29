@@ -6,7 +6,7 @@
             <icon name="icon-right" />
         </router-link>
     </div>
-    <button class="add-btn">新建标签</button>
+    <button class="add-btn" @click="addTag">新建标签</button>
 </layout>
 </template>
 
@@ -29,6 +29,12 @@ tagsModel.fetch();
 })
 export default class Labels extends Vue {
     tags = tagsModel.data;
+    addTag() {
+        const tag = window.prompt("请输入标签名：");
+        if (tag) {
+            alert(tagsModel.add(tag).message);
+        }
+    }
 }
 </script>
 
