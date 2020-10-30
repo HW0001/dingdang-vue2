@@ -26,16 +26,18 @@
                   id:(maxid+1).toString(),
                   name:tag
               });
-              localStorage.setItem("taglist",JSON.stringify(state.tagsRecord));  
+              store.commit("saveTags");
               return alert("保存成功")
           }  
         
       },
       deleteTag(state,tagid){
-        state.tagsRecord.splice(state.tagsRecord.findIndex(e=>e.id===tagid),1) 
-        localStorage.setItem("taglist",JSON.stringify(state.tagsRecord));  
+        state.tagsRecord.splice(state.tagsRecord.findIndex(e=>e.id===tagid),1)  
+        store.commit("saveTags");
        }, 
-       
+       saveTags(state){
+        localStorage.setItem("taglist",JSON.stringify(state.tagsRecord));  
+       },
        fetchMoney(state){
         const tags = localStorage.getItem("moneyobj"); 
         if(tags)
@@ -45,7 +47,10 @@
        },
        addMoney(state,money: MoneyObject){
         money.saveTime=new Date();
-        state.monryRecord.push(money);
+        state.monryRecord.push(money); 
+        store.commit("saveMoneyRecord")
+       },
+       saveMoneyRecord(state){
         localStorage.setItem("moneyobj", JSON.stringify(state.monryRecord));
        } 
     },

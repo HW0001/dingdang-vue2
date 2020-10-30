@@ -33,8 +33,7 @@ export default class Labels extends Vue {
     addTag() {
         const tag = window.prompt("请输入标签名：");
         if (tag) {
-            const s = this.$store.commit("addTag", tag);
-            console.log(s);
+            this.$store.commit("addTag", tag);
         }
     }
 }
