@@ -13,10 +13,11 @@
 <script lang="ts">
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
-import Vue from "vue";
 import {
-    Component
+    Component,
+    Mixins
 } from "vue-property-decorator";
+import TagHelper from "@/mixins/tagHelper";
 
 @Component({
     components: {
@@ -24,7 +25,7 @@ import {
         Icon,
     },
 })
-export default class Labels extends Vue {
+export default class Labels extends Mixins(TagHelper) {
     get tags() {
         return this.$store.state.tagsRecord;
     }

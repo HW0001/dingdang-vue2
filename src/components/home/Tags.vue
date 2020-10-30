@@ -10,14 +10,15 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import {
     Component,
-    PropSync
+    PropSync,
+    Mixins
 } from "vue-property-decorator";
+import TagHelper from "@/mixins/tagHelper";
 
 @Component
-export default class Types extends Vue {
+export default class Types extends Mixins(TagHelper) {
     @PropSync("selectedTags", {
         type: Array,
     })
@@ -32,12 +33,6 @@ export default class Types extends Vue {
             this.selectTags.splice(index, 1);
         } else {
             this.selectTags.push(tag);
-        }
-    }
-    addTag() {
-        const tag = window.prompt("请输入标签名：");
-        if (tag) {
-            this.$store.commit("addTag", tag);
         }
     }
 }
