@@ -11,18 +11,19 @@
 
 <script lang="ts">
 import Vue from "vue";
-import tagsModel from "@/models/tagsModel";
-tagsModel.fetch();
-
 import {
     Component,
     PropSync
 } from "vue-property-decorator";
 
-@Component
+@Component({
+    computed: {
+        currentTags() {
+            return this.$store.state.tagsRecord;
+        },
+    },
+})
 export default class Types extends Vue {
-    currentTags = tagsModel.data;
-
     @PropSync("selectedTags", {
         type: Array,
     })
@@ -39,7 +40,7 @@ export default class Types extends Vue {
     addTag() {
         const tag = window.prompt("请输入标签名：");
         if (tag) {
-            alert(tagsModel.add(tag).message);
+            this.$store.commit("addTag", tag);
         }
     }
 }

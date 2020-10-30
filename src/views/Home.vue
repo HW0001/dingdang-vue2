@@ -15,13 +15,14 @@ import KeyPage from "@/components/home/KeyPage.vue";
 import Types from "@/components/home/Types.vue";
 import Notes from "@/components/home/Notes.vue";
 import Tags from "@/components/home/Tags.vue";
+import {
+    clone
+} from "../lib/tools";
 import Vue from "vue";
 import {
     Component
 } from "vue-property-decorator";
 
-import recordModel from "@/models/recordModel";
-recordModel.fetch();
 @Component({
     components: {
         Tags,
@@ -32,11 +33,20 @@ recordModel.fetch();
     },
 })
 export default class Home extends Vue {
-    recordList = recordModel.data;
-    record = recordModel.reset();
+    recordList = this.$store.state.moneyRecord;
+    record = {
+        type: "-",
+        noteVaule: "",
+        selectedTags: [],
+        money: 0,
+        saveTime: undefined,
+    };
     saveRecord() {
-        recordModel.add(this.record);
-        this.record = recordModel.reset();
+        this.$store.commit("addMoney", clone(this.record));
+        this.record.noteVaule = "";
+        this.record.selectedTags = [];
+        this.record.money = 0;
+        this.record.saveTime = undefined;
         alert("保存成功！");
     }
 }
