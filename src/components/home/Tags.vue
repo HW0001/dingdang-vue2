@@ -16,18 +16,15 @@ import {
     PropSync
 } from "vue-property-decorator";
 
-@Component({
-    computed: {
-        currentTags() {
-            return this.$store.state.tagsRecord;
-        },
-    },
-})
+@Component
 export default class Types extends Vue {
     @PropSync("selectedTags", {
         type: Array,
     })
     selectTags!: string[];
+    get currentTags() {
+        return this.$store.state.tagsRecord;
+    }
 
     toggle(tag: string) {
         const index = this.selectTags.indexOf(tag);

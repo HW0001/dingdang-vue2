@@ -23,13 +23,11 @@ import {
         Layout,
         Icon,
     },
-    computed: {
-        tags() {
-            return this.$store.state.tagsRecord;
-        },
-    },
 })
 export default class Labels extends Vue {
+    get tags() {
+        return this.$store.state.tagsRecord;
+    }
     addTag() {
         const tag = window.prompt("请输入标签名：");
         if (tag) {
