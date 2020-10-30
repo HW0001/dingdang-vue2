@@ -23,8 +23,10 @@ import {
     Component
 } from "vue-property-decorator";
 
-import tagsModel from "@/models/tagsModel";
-tagsModel.fetch();
+type TagData = {
+    id: string;
+    name: string;
+};
 
 @Component({
     components: {
@@ -33,23 +35,24 @@ tagsModel.fetch();
     },
 })
 export default class EditLabel extends Vue {
-    tag = {
-        id: "",
-        name: "",
-    };
+    tag: TagData | undefined = undefined;
     created() {
+        console.log(this.$store.state.tagsRecord);
         const {
             id
         } = this.$route.params;
-        if (tagsModel.data.map((e) => e.id).indexOf(id) === -1) {
+        const tags = (this.$store.state.tagsRecord as TagData[]).filter(
+            (e) => e.id === id
+        )[0];
+        if (!tags) {
             this.$router.replace("/404");
         } else {
-            this.tag = tagsModel.data.filter((e) => e.id === id)[0];
+            this.tag = tags;
         }
     }
     delTag() {
-        if (window.confirm("是否删除该标签?")) {
-            tagsModel.delete(this.tag.id);
+        if (window.confirm("是否删除该标签?") && this.tag) {
+            this.$store.commit("deleteTag", this.tag.id);
             this.$router.replace("/labels");
         }
     }

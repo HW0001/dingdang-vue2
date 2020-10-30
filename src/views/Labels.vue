@@ -18,21 +18,23 @@ import {
     Component
 } from "vue-property-decorator";
 
-import tagsModel from "@/models/tagsModel";
-tagsModel.fetch();
-
 @Component({
     components: {
         Layout,
         Icon,
     },
+    computed: {
+        tags() {
+            return this.$store.state.tagsRecord;
+        },
+    },
 })
 export default class Labels extends Vue {
-    tags = tagsModel.data;
     addTag() {
         const tag = window.prompt("请输入标签名：");
         if (tag) {
-            alert(tagsModel.add(tag).message);
+            const s = this.$store.commit("addTag", tag);
+            console.log(s);
         }
     }
 }
