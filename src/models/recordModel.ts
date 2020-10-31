@@ -21,7 +21,7 @@ const recordModel: RecordModel={
         this.data = JSON.parse(localStorage.getItem(localStorageKey) || "[]");
     },
     add (record) {
-        record.saveTime=new Date();
+        record.saveTime=new Date().toISOString();
         this.data.push(record);
         this.save();
     },

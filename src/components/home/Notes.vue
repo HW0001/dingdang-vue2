@@ -12,14 +12,15 @@ import Vue from "vue";
 import {
     Component,
     PropSync
-} from 'vue-property-decorator';
+} from "vue-property-decorator";
 
 @Component
 export default class Types extends Vue {
-    @PropSync('noteValue', {
+    @PropSync("noteValue", {
         type: String,
-        default: ''
-    }) newNoteValue!: string;
+        default: "",
+    })
+    newNoteValue!: string;
 }
 </script>
 

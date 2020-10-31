@@ -3,7 +3,7 @@ type MoneyObject = {
     noteVaule: string;
     selectedTags: string[];
     money: number;
-    saveTime ? : Date
+    saveTime ? : string
 }
 
 type MessageModel = {

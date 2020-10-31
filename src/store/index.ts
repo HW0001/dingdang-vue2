@@ -46,7 +46,7 @@
         }  
        },
        addMoney(state,money: MoneyObject){
-        money.saveTime=new Date();
+        money.saveTime=new Date().toISOString();
         state.monryRecord.push(money); 
         store.commit("saveMoneyRecord")
        },
