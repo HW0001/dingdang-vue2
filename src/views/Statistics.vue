@@ -3,13 +3,13 @@
     <tabs :tab-items="recordType" :value.sync="record" classPrefix="record" />
     <tabs :tab-items="intervalType" :value.sync="interval" classPrefix="interval" />
     <ol>
-        <li v-for="(group, index) in recordList" :key="index" class="record-title">
-            <h3>{{ group.title }}</h3>
+        <li v-for="(group, index) in groupedList" :key="index" class="record-title">
+            <h3>{{ handleDate(group.title) }}</h3>
             <ol>
                 <li v-for="(item, index2) in group.items" :key="index2" class="record-info">
                     <span class="tags">{{ getTagsName(item.selectedTags) }}</span>
                     <span class="notes">{{ item.noteVaule }} </span>
-                    <span class="moeny">{{ item.money }}</span>
+                    <span class="moeny">￥{{ item.money }}</span>
                 </li>
             </ol>
         </li>
@@ -21,6 +21,7 @@
 import Vue from "vue";
 import Layout from "@/components/Layout.vue";
 import Tabs from "@/components/Tabs.vue";
+import dayjs from "dayjs";
 import {
     recordType,
     intervalType
@@ -28,6 +29,9 @@ import {
 import {
     Component
 } from "vue-property-decorator";
+import {
+    clone
+} from "@/lib/tools";
 
 @Component({
     components: {
@@ -40,22 +44,30 @@ export default class Statistics extends Vue {
     intervalType = intervalType;
     record = "-";
     interval = "day";
-    get recordList() {
+    recordList = this.$store.state.monryRecord as MoneyObject[];
+
+    get groupedList() {
         type itemType = {
             title: string;
             items: MoneyObject[];
         };
-        const hashItem: {
-            [key: string]: itemType;
-        } = {};
-        (this.$store.state.monryRecord as MoneyObject[]).forEach((e) => {
+        const hashItem: itemType[] = [];
+        const newRecodList = clone(this.recordList);
+        newRecodList.sort(
+            (a, b) => dayjs(b.saveTime).valueOf() - dayjs(a.saveTime).valueOf()
+        );
+        newRecodList.forEach((e) => {
             if (e.saveTime) {
-                const date = e.saveTime.split("T")[0];
-                hashItem[date] = hashItem[date] || {
-                    title: date,
-                    items: [],
-                };
-                hashItem[date].items.push(e);
+                const current = dayjs(e.saveTime).format("YYYY-MM-DD");
+                const lastIrem = hashItem[hashItem.length - 1];
+                if (lastIrem && lastIrem.title === current) {
+                    lastIrem.items.push(e);
+                } else {
+                    hashItem.push({
+                        title: current,
+                        items: [e],
+                    });
+                }
             }
         });
         return hashItem;
@@ -63,6 +75,21 @@ export default class Statistics extends Vue {
 
     getTagsName(tag: TagData[]) {
         return tag.map((e) => e.name).join(",") || "无";
+    }
+    handleDate(date: string) {
+        const now = dayjs();
+        const current = dayjs(date);
+        if (now.isSame(current, "d")) {
+            return "今天";
+        } else if (now.isSame(current.add(1, "d"), "d")) {
+            return "昨天";
+        } else if (now.isSame(current.add(2, "d"), "d")) {
+            return "前天";
+        } else if (now.isSame(current, "y")) {
+            return current.format("M月D日");
+        } else {
+            return current.format("YYYY年M月D日");
+        }
     }
 }
 </script>
@@ -93,6 +120,12 @@ export default class Statistics extends Vue {
 
 .record-title {
     padding: 4px 16px;
+
+    h3 {
+        color: #000000;
+        font-size: 18px;
+        border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+    }
 
     .record-info {
         display: flex;
