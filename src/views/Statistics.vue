@@ -1,11 +1,13 @@
 <template>
 <layout>
     <tabs :tab-items="recordType" :value.sync="record" classPrefix="record" />
-    <tabs :tab-items="intervalType" :value.sync="interval" classPrefix="interval" />
-    <ol>
+    <ol class="record-statistic">
         <li v-for="(group, index) in groupedList" :key="index" class="record-title">
-            <h3>{{ handleDate(group.title) }}</h3>
-            <ol>
+            <h3>
+                <span>{{ handleDate(group.title) }}</span>
+                <span>￥{{ group.total }}</span>
+            </h3>
+            <ol class="record-table">
                 <li v-for="(item, index2) in group.items" :key="index2" class="record-info">
                     <span class="tags">{{ getTagsName(item.selectedTags) }}</span>
                     <span class="notes">{{ item.noteVaule }} </span>
@@ -23,8 +25,7 @@ import Layout from "@/components/Layout.vue";
 import Tabs from "@/components/Tabs.vue";
 import dayjs from "dayjs";
 import {
-    recordType,
-    intervalType
+    recordType
 } from "@/constants/preject";
 import {
     Component
@@ -41,18 +42,19 @@ import {
 })
 export default class Statistics extends Vue {
     recordType = recordType;
-    intervalType = intervalType;
     record = "-";
-    interval = "day";
     recordList = this.$store.state.monryRecord as MoneyObject[];
 
     get groupedList() {
         type itemType = {
             title: string;
+            total: number;
             items: MoneyObject[];
         };
         const hashItem: itemType[] = [];
-        const newRecodList = clone(this.recordList);
+        const newRecodList = clone(this.recordList).filter(
+            (e) => e.type === this.record
+        );
         newRecodList.sort(
             (a, b) => dayjs(b.saveTime).valueOf() - dayjs(a.saveTime).valueOf()
         );
@@ -65,11 +67,15 @@ export default class Statistics extends Vue {
                 } else {
                     hashItem.push({
                         title: current,
+                        total: 0,
                         items: [e],
                     });
                 }
             }
         });
+        hashItem.map(
+            (e) => (e.total = e.items.reduce((sum, curr) => sum + curr.money, 0))
+        );
         return hashItem;
     }
 
@@ -97,55 +103,57 @@ export default class Statistics extends Vue {
 <style lang="scss" scoped>
 ::v-deep {
     .record-tab-item {
-        background: white;
+        background-color: rgb(196, 196, 196);
 
         &.selected {
-            background-color: rgb(196, 196, 196);
+            background: white;
 
             &::after {
                 height: 0;
             }
         }
     }
-
-    .interval-tab-item {
-        height: 48px;
-        font-size: 18px;
-
-        &.selected::after {
-            height: 3px;
-        }
-    }
 }
 
-.record-title {
-    padding: 4px 16px;
+.record-statistic {
+    padding: 4px 0;
 
-    h3 {
-        color: #000000;
-        font-size: 18px;
-        border-bottom: 1px solid rgb(0, 0, 0, 0.2);
-    }
+    .record-title {
+        padding: 4px 16px;
 
-    .record-info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 16px;
-        padding: 8px 0;
-
-        .tags {
+        h3 {
             color: #000000;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 4px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgb(0, 0, 0, 0.2);
         }
 
-        .notes {
-            color: #999;
-            margin-left: 8px;
-            flex-grow: 1;
-        }
+        .record-table {
+            .record-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 14px;
+                padding: 8px 0;
 
-        .money {
-            color: #000000;
+                .tags {
+                    color: #000000;
+                }
+
+                .notes {
+                    color: #999;
+                    margin-left: 8px;
+                    flex-grow: 1;
+                }
+
+                .money {
+                    color: #000000;
+                }
+            }
         }
     }
 }
