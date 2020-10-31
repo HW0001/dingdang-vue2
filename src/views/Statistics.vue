@@ -3,13 +3,13 @@
     <tabs :tab-items="recordType" :value.sync="record" classPrefix="record" />
     <tabs :tab-items="intervalType" :value.sync="interval" classPrefix="interval" />
     <ol>
-        <li v-for="(group, index) in recordList" :key="index">
+        <li v-for="(group, index) in recordList" :key="index" class="record-title">
             <h3>{{ group.title }}</h3>
             <ol>
-                <li v-for="(item, index2) in group.items" :key="index2">
-                    <span>{{ getTagsName(item.selectedTags) }}</span>
-                    <span>{{ item.noteVaule }}</span>
-                    <span>{{ item.money }}</span>
+                <li v-for="(item, index2) in group.items" :key="index2" class="record-info">
+                    <span class="tags">{{ getTagsName(item.selectedTags) }}</span>
+                    <span class="notes">{{ item.noteVaule }} </span>
+                    <span class="moeny">{{ item.money }}</span>
                 </li>
             </ol>
         </li>
@@ -62,7 +62,7 @@ export default class Statistics extends Vue {
     }
 
     getTagsName(tag: TagData[]) {
-        return tag.map((e) => e.name).join(",");
+        return tag.map((e) => e.name).join(",") || "无";
     }
 }
 </script>
@@ -87,6 +87,32 @@ export default class Statistics extends Vue {
 
         &.selected::after {
             height: 3px;
+        }
+    }
+}
+
+.record-title {
+    padding: 4px 16px;
+
+    .record-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+        padding: 8px 0;
+
+        .tags {
+            color: #000000;
+        }
+
+        .notes {
+            color: #999;
+            margin-left: 8px;
+            flex-grow: 1;
+        }
+
+        .money {
+            color: #000000;
         }
     }
 }
