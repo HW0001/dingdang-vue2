@@ -2,7 +2,7 @@
 <layout>
     <div class="page">
         <key-page :money.sync="record.money" @submit="saveRecord" />
-        <types :type.sync="record.type" />
+        <tabs :value.sync="record.type" :tab-items="recordTypes" />
         <notes :note-value.sync="record.noteVaule" />
         <tags :selectedTags="record.selectedTags" />
     </div>
@@ -12,9 +12,12 @@
 <script lang="ts">
 import Layout from "@/components/Layout.vue";
 import KeyPage from "@/components/home/KeyPage.vue";
-import Types from "@/components/home/Types.vue";
 import Notes from "@/components/home/Notes.vue";
 import Tags from "@/components/home/Tags.vue";
+import Tabs from "@/components/Tabs.vue";
+import {
+    recordType
+} from "@/constants/preject";
 import {
     clone
 } from "../lib/tools";
@@ -27,13 +30,14 @@ import {
     components: {
         Tags,
         Notes,
-        Types,
+        Tabs,
         KeyPage,
         Layout,
     },
 })
 export default class Home extends Vue {
     recordList = this.$store.state.moneyRecord;
+    recordTypes = recordType;
     record = {
         type: "-",
         noteVaule: "",
