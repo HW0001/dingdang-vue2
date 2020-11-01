@@ -10,9 +10,11 @@
         <main>
             <label>标签名：<input type="text" v-model="currentTag.name" /></label>
             <h3>选择一个图标</h3>
-            <icons-view name="icon-icon_business" :selectedIconName.sync="currentTag.icon" />
+            <div class="icons">
+                <icons-view name="icon-icon_business" :selectedIconName.sync="currentTag.icon" />
+            </div>
         </main>
-        <icon class="del-btn" @click.native="delTag" name="icon-delete" />
+        <icon v-show="isShowIcon" class="del-btn" @click.native="delTag" name="icon-delete" ref="delIcon" />
     </div>
 </layout>
 </template>
@@ -40,7 +42,7 @@ export default class EditLabel extends Mixins(VueScroll) {
         name: "",
         icon: "",
     };
-
+    isShowIcon = true;
     created() {
         const {
             id
@@ -78,7 +80,6 @@ export default class EditLabel extends Mixins(VueScroll) {
 <style lang="scss" scoped>
 .wrapping {
     height: 100%;
-    position: relative;
 
     header {
         display: flex;
@@ -99,8 +100,6 @@ export default class EditLabel extends Mixins(VueScroll) {
     }
 
     main {
-        height: 44px;
-        line-height: 44px;
         font-size: 16px;
         padding-left: 15px;
         border-bottom: 1px solid rgb(221, 221, 224);
@@ -110,20 +109,26 @@ export default class EditLabel extends Mixins(VueScroll) {
             text-align: center;
         }
 
-        input {
-            border: none;
-            font-size: inherit;
+        label {
+            height: 44px;
+            line-height: 44px;
+
+            input {
+                border: none;
+                font-size: inherit;
+            }
+        }
+
+        .icons {
+            border-bottom: 1px solid rgb(0, 0, 0, 0.25);
         }
     }
 
     .del-btn {
         display: block;
-        position: absolute;
-        left: 50%;
-        bottom: 32px;
-        transform: translateX(-50%);
         width: 3em;
         height: 3em;
+        margin: 16px auto;
     }
 }
 </style>
