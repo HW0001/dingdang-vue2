@@ -74,6 +74,7 @@ export default class Home extends Mixins(VueScroll) {
     flex-direction: column-reverse;
     justify-content: flex-start;
     height: 100%;
+    overflow: auto;
 }
 
 ::v-deep {
@@ -81,6 +82,7 @@ export default class Home extends Mixins(VueScroll) {
         font-size: 12px;
         justify-content: flex-start;
         padding-left: 16px;
+        padding-top: 8px;
 
         .tag-item {
             width: 15%;
