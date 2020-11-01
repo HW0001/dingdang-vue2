@@ -8,5 +8,5 @@ export default class TagHelper extends Vue {
         if (tag) {
             this.$store.commit("addTag", tag);
         }
-    }
+    } 
 }

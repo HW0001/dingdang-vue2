@@ -1,7 +1,7 @@
 <template>
 <layout>
     <tabs :tab-items="recordType" :value.sync="record" classPrefix="record" />
-    <ol class="record-statistic">
+    <ol class="record-statistic" v-if="groupedList.length > 0">
         <li v-for="(group, index) in groupedList" :key="index" class="record-title">
             <h3>
                 <span>{{ handleDate(group.title) }}</span>
@@ -16,19 +16,21 @@
             </ol>
         </li>
     </ol>
+    <div v-else class="no-record">还没有添加记录</div>
 </layout>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import Layout from "@/components/Layout.vue";
 import Tabs from "@/components/Tabs.vue";
 import dayjs from "dayjs";
+import VueScroll from "@/mixins/vueSroll";
 import {
     recordType
 } from "@/constants/preject";
 import {
-    Component
+    Component,
+    Mixins
 } from "vue-property-decorator";
 import {
     clone
@@ -40,7 +42,7 @@ import {
         Tabs,
     },
 })
-export default class Statistics extends Vue {
+export default class Statistics extends Mixins(VueScroll) {
     recordType = recordType;
     record = "-";
     recordList = this.$store.state.monryRecord as MoneyObject[];
@@ -156,5 +158,10 @@ export default class Statistics extends Vue {
             }
         }
     }
+}
+
+.no-record {
+    padding: 16px;
+    text-align: center;
 }
 </style>

@@ -6,9 +6,14 @@
 </template>
 
 <script lang="ts">
-export default {
-    name: "NotFound",
-};
+import VueScroll from "@/mixins/vueSroll";
+import {
+    Component,
+    Mixins
+} from "vue-property-decorator";
+
+@Component
+export default class NotFound extends Mixins(VueScroll) {}
 </script>
 
 <style lang="scss" scoped></style>

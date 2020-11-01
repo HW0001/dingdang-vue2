@@ -17,5 +17,5 @@ new Vue({
 window.addEventListener("load",function() {
   setTimeout(function(){ 
       window.scrollTo(0, 1000);
-  }, 0);
+  }, 100);
 });

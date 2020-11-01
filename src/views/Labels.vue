@@ -13,6 +13,7 @@
 <script lang="ts">
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
+import VueScroll from "@/mixins/vueSroll";
 import {
     Component,
     Mixins
@@ -25,7 +26,7 @@ import TagHelper from "@/mixins/tagHelper";
         Icon,
     },
 })
-export default class Labels extends Mixins(TagHelper) {
+export default class Labels extends Mixins(TagHelper, VueScroll) {
     get tags() {
         return this.$store.state.tagsRecord;
     }

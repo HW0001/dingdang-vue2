@@ -15,15 +15,16 @@ import KeyPage from "@/components/home/KeyPage.vue";
 import Notes from "@/components/home/Notes.vue";
 import Tags from "@/components/home/Tags.vue";
 import Tabs from "@/components/Tabs.vue";
+import VueScroll from "@/mixins/vueSroll";
 import {
     recordType
 } from "@/constants/preject";
 import {
     clone
 } from "../lib/tools";
-import Vue from "vue";
 import {
-    Component
+    Component,
+    Mixins
 } from "vue-property-decorator";
 
 @Component({
@@ -35,7 +36,7 @@ import {
         Layout,
     },
 })
-export default class Home extends Vue {
+export default class Home extends Mixins(VueScroll) {
     recordList = this.$store.state.moneyRecord;
     recordTypes = recordType;
     record = {

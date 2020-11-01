@@ -16,11 +16,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
+import VueScroll from "@/mixins/vueSroll";
 import {
-    Component
+    Component,
+    Mixins
 } from "vue-property-decorator";
 
 type TagData = {
@@ -34,7 +35,7 @@ type TagData = {
         Icon,
     },
 })
-export default class EditLabel extends Vue {
+export default class EditLabel extends Mixins(VueScroll) {
     get tag() {
         const {
             id
