@@ -1,20 +1,31 @@
 <template>
 <div class="nav-warp">
-    <div class="content">
+    <div class="content" :style="{ height: clictHeight }">
         <slot />
     </div>
-    <menu-nav />
+    <div class="nav-div">
+        <menu-nav />
+    </div>
 </div>
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import MenuNav from "@/components/MenuNav.vue";
-export default {
-    name: "Layout",
+import {
+    Component
+} from "vue-property-decorator";
+@Component({
     components: {
         MenuNav,
     },
-};
+})
+export default class EditLabel extends Vue {
+    get clictHeight() {
+        const clict = document.documentElement.getBoundingClientRect();
+        return (clict.height || 1000) + "px";
+    }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -27,8 +38,11 @@ export default {
     flex-direction: column;
 
     .content {
-        min-height: calc(100vh - 56px);
         overflow: auto;
+    }
+
+    .nav-div {
+        height: 56px;
     }
 }
 </style>

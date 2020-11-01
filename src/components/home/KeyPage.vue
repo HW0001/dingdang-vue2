@@ -25,42 +25,41 @@ import Vue from "vue";
 import {
     Component,
     Prop
-} from 'vue-property-decorator';
+} from "vue-property-decorator";
 
 @Component
 export default class Home extends Vue {
-    @Prop(Number) money!: number
+    @Prop(Number) money!: number;
     output = this.money.toString();
     operation(e: MouseEvent) {
         const button = e.target;
-        let txt = '0'
+        let txt = "0";
         if (button) {
             txt = (button as HTMLButtonElement).textContent || "";
             if (isNaN(parseInt(txt)) && txt !== ".") {
                 if (txt === "删除") {
-                    this.remove()
+                    this.remove();
                 } else if (txt === "清空") {
                     this.output = "0";
                 } else {
                     this.enter();
                 }
             } else {
-                this.changeValue(txt)
+                this.changeValue(txt);
             }
         }
-
     }
     changeValue(txt: string) {
         if (this.output.length === 16) return;
-        this.output === "." && txt === "." && (txt = "")
-        this.output === "0" && txt === "." && (txt = "0.")
-        this.output.includes(".") && txt === "." && (txt = "")
+        this.output === "." && txt === "." && (txt = "");
+        this.output === "0" && txt === "." && (txt = "0.");
+        this.output.includes(".") && txt === "." && (txt = "");
         if (this.output === "0") {
             this.output = txt;
         } else if (this.output === ".") {
-            this.output = "0." + txt
+            this.output = "0." + txt;
         } else {
-            this.output += txt
+            this.output += txt;
         }
     }
     remove() {
@@ -68,9 +67,9 @@ export default class Home extends Vue {
         this.output.length > 1 && (this.output = this.output.slice(0, -1));
     }
     enter() {
-        this.$emit("update:money", parseFloat(this.output))
-        this.$emit("submit")
-        this.output = "0"
+        this.$emit("update:money", parseFloat(this.output));
+        this.$emit("submit");
+        this.output = "0";
     }
 }
 </script>
@@ -79,12 +78,12 @@ export default class Home extends Vue {
 @import "~@/assets/style/helper.scss";
 
 .output {
-    height: 72px;
-    line-height: 72px;
+    height: 64px;
+    line-height: 64px;
     font-size: 36px;
     text-align: right;
     font-family: Consolas, monospace;
-    box-shadow: inset 0 -4px 4px -4px rgba(0, 0, 0, .6);
+    box-shadow: inset 0 -4px 4px -4px rgba(0, 0, 0, 0.6);
     padding: 0 4px;
 }
 
@@ -128,27 +127,27 @@ export default class Home extends Vue {
     :nth-child(3),
     :nth-child(6),
     :nth-child(9) {
-        background-color: darken($bg, 4%*2);
+        background-color: darken($bg, 4% * 2);
     }
 
     :nth-child(4),
     :nth-child(7),
     :nth-child(10) {
-        background-color: darken($bg, 4%*3);
+        background-color: darken($bg, 4% * 3);
     }
 
     :nth-child(8),
     :nth-child(11),
     :nth-child(13) {
-        background-color: darken($bg, 4%*4);
+        background-color: darken($bg, 4% * 4);
     }
 
     :nth-child(14) {
-        background-color: darken($bg, 4%*5);
+        background-color: darken($bg, 4% * 5);
     }
 
     :nth-child(12) {
-        background-color: darken($bg, 4%*6);
+        background-color: darken($bg, 4% * 6);
     }
 }
 </style>

@@ -20,7 +20,7 @@ import Icon from "@/components/Icon.vue";
 export default {
     name: "MenuNav",
     components: {
-        Icon
+        Icon,
     },
 };
 </script>
