@@ -1,13 +1,10 @@
 <template>
 <layout>
     <div class="tags">
-        <router-link class="tag" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`">
-            <span>{{ tag.name }}</span>
-            <icon name="icon-right" />
-        </router-link>
+        <TagsView />
     </div>
     <router-link class="add-btn" :to="`/labels/edit/add`">
-        新建标签
+        <icon name="icon-add" />
     </router-link>
 </layout>
 </template>
@@ -16,6 +13,7 @@
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
 import VueScroll from "@/mixins/vueSroll";
+import TagsView from "@/components/label/TagsView.vue";
 import {
     Component,
     Mixins
@@ -26,6 +24,7 @@ import TagHelper from "@/mixins/tagHelper";
     components: {
         Layout,
         Icon,
+        TagsView,
     },
 })
 export default class Labels extends Mixins(TagHelper, VueScroll) {
@@ -58,13 +57,13 @@ export default class Labels extends Mixins(TagHelper, VueScroll) {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    font-size: 18px;
-    color: #fff;
     border: none;
-    width: 100px;
-    text-align: center;
-    line-height: 36px;
-    background-color: rgb(118, 118, 118);
-    border-radius: 4px;
+    width: 48px;
+    height: 48px;
+
+    .icon {
+        width: 100%;
+        height: 100%;
+    }
 }
 </style>

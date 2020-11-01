@@ -17,7 +17,7 @@
           }  
         },
         addTag(state,tag: TagData){ 
-          if(state.tagsRecord.some(e=>e.name===tag.name && e.id!==tag.id)){
+          if(state.tagsRecord.some(e=>e.name && e.name===tag.name && e.id!==tag.id)){
               return alert("标签已存在")
           }
           else{

@@ -12,7 +12,7 @@
             <h3>选择一个图标</h3>
             <icons-view name="icon-icon_business" :selectedIconName.sync="currentTag.icon" />
         </main>
-        <button class="del-btn" @click="delTag">删除标签</button>
+        <icon class="del-btn" @click.native="delTag" name="icon-delete" />
     </div>
 </layout>
 </template>
@@ -21,7 +21,7 @@
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
 import VueScroll from "@/mixins/vueSroll";
-import IconsView from "@/components/IconsView.vue";
+import IconsView from "@/components/label/IconsView.vue";
 import {
     Component,
     Mixins,
@@ -122,12 +122,8 @@ export default class EditLabel extends Mixins(VueScroll) {
         left: 50%;
         bottom: 32px;
         transform: translateX(-50%);
-        background-color: rgb(118, 118, 118);
-        color: #fff;
-        border: none;
-        padding: 6px 16px;
-        font-size: 16px;
-        border-radius: 4px;
+        width: 3em;
+        height: 3em;
     }
 }
 </style>
