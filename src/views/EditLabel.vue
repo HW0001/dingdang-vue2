@@ -9,6 +9,7 @@
         </header>
         <main>
             <label>标签名：<input type="text" v-model="tag.name" /></label>
+            <icons-view name="icon-icon_business" />
         </main>
         <button class="del-btn" @click="delTag">删除标签</button>
     </div>
@@ -19,6 +20,7 @@
 import Layout from "@/components/Layout.vue";
 import Icon from "@/components/Icon.vue";
 import VueScroll from "@/mixins/vueSroll";
+import IconsView from "@/components/IconsView.vue";
 import {
     Component,
     Mixins
@@ -33,6 +35,7 @@ type TagData = {
     components: {
         Layout,
         Icon,
+        IconsView,
     },
 })
 export default class EditLabel extends Mixins(VueScroll) {

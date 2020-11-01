@@ -17,21 +17,6 @@ module.exports = {
       .options({
         symbolId: "icon-[name]",
       })
-      .end()
-      .use("svgo-loader")
-      .loader("svgo-loader")
-      .tap((options) => ({
-        ...options,
-        plugins: [{ removeAttrs: { attrs: "fill" } }],
-      }))
       .end();
-    const fileRule = config.module.rule("file");
-    fileRule.uses.clear();
-    fileRule
-      .test(/\.svg$/)
-      .exclude.add(path.resolve(__dirname, "./src/assets/icons"))
-      .end()
-      .use("file-loader")
-      .loader("file-loader");
   },
 };

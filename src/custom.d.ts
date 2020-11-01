@@ -14,4 +14,5 @@ type MessageModel = {
 type TagData = {
     id: string;
     name: string;
+    icon:string;
 }

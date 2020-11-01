@@ -6,7 +6,9 @@
             <icon name="icon-right" />
         </router-link>
     </div>
-    <button class="add-btn" @click="addTag">新建标签</button>
+    <router-link class="add-btn" :to="`/labels/edit/1`">
+        新建标签
+    </router-link>
 </layout>
 </template>
 
@@ -29,12 +31,6 @@ import TagHelper from "@/mixins/tagHelper";
 export default class Labels extends Mixins(TagHelper, VueScroll) {
     get tags() {
         return this.$store.state.tagsRecord;
-    }
-    addTag() {
-        const tag = window.prompt("请输入标签名：");
-        if (tag) {
-            this.$store.commit("addTag", tag);
-        }
     }
 }
 </script>
@@ -65,8 +61,10 @@ export default class Labels extends Mixins(TagHelper, VueScroll) {
     font-size: 18px;
     color: #fff;
     border: none;
+    width: 100px;
+    text-align: center;
+    line-height: 36px;
     background-color: rgb(118, 118, 118);
-    padding: 8px 16px;
     border-radius: 4px;
 }
 </style>

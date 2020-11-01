@@ -16,15 +16,16 @@
             state.tagsRecord = JSON.parse(tags) as TagData[];
           }  
         },
-        addTag(state,tag: string){ 
-          if(state.tagsRecord.some(e=>e.name===tag)){
+        addTag(state,tag: TagData){ 
+          if(state.tagsRecord.some(e=>e.name===tag.name)){
               return alert("标签已存在")
           }
           else{
               const maxid = Math.max(...state.tagsRecord.map(e=>parseInt(e.id)));
               state.tagsRecord.push({
                   id:(maxid+1).toString(),
-                  name:tag
+                  name:tag.name,
+                  icon:tag.icon
               });
               store.commit("saveTags");
               return alert("保存成功")
