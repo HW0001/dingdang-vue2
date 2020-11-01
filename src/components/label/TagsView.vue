@@ -48,6 +48,14 @@ export default class Tabs extends Vue {
         align-items: center;
         padding: 8px 0;
 
+        &.selected {
+            transform: scale(1.2);
+
+            span {
+                border-bottom: 1px solid black;
+            }
+        }
+
         .icon {
             width: 2em;
             height: 2em;

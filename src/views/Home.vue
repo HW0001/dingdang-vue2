@@ -79,7 +79,7 @@ export default class Home extends Mixins(VueScroll) {
 ::v-deep {
     .home-icons {
         font-size: 8px;
-        padding: 8px 8px;
+        justify-content: center;
 
         .tag-item {
             width: 15%;
