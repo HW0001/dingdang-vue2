@@ -23,8 +23,9 @@ import {
 export default class Tabs extends Vue {
     fileNames: string[] = [];
     @PropSync("selectedIconName", {
-        type: String
-    }) currentName = "";
+        type: String,
+    })
+    currentName: string | undefined;
 
     created() {
         for (let i = 1; i < 23; i++) {

@@ -6,7 +6,7 @@
             <icon name="icon-right" />
         </router-link>
     </div>
-    <router-link class="add-btn" :to="`/labels/edit/1`">
+    <router-link class="add-btn" :to="`/labels/edit/add`">
         新建标签
     </router-link>
 </layout>

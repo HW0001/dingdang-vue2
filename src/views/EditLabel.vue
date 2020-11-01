@@ -8,8 +8,9 @@
             <span>编辑标签</span>
         </header>
         <main>
-            <label>标签名：<input type="text" v-model="tag.name" /></label>
-            <icons-view name="icon-icon_business" />
+            <label>标签名：<input type="text" v-model="currentTag.name" /></label>
+            <h3>选择一个图标</h3>
+            <icons-view name="icon-icon_business" :selectedIconName.sync="currentTag.icon" />
         </main>
         <button class="del-btn" @click="delTag">删除标签</button>
     </div>
@@ -23,14 +24,9 @@ import VueScroll from "@/mixins/vueSroll";
 import IconsView from "@/components/IconsView.vue";
 import {
     Component,
-    Mixins
+    Mixins,
+    Watch
 } from "vue-property-decorator";
-
-type TagData = {
-    id: string;
-    name: string;
-};
-
 @Component({
     components: {
         Layout,
@@ -39,25 +35,42 @@ type TagData = {
     },
 })
 export default class EditLabel extends Mixins(VueScroll) {
-    get tag() {
+    currentTag: TagData = {
+        id: "",
+        name: "",
+        icon: "",
+    };
+
+    created() {
         const {
             id
         } = this.$route.params;
-        const tags = (this.$store.state.tagsRecord as TagData[]).filter(
-            (e) => e.id === id
-        )[0];
-        if (!tags) {
-            this.$router.replace("/404");
-            return undefined;
+        const tags = this.$store.state.tagsRecord as TagData[];
+        const tag = tags.filter((e) => e.id === id)[0];
+        if (tag) {
+            this.currentTag = tag;
         } else {
-            return tags;
+            if (tags.length > 0) {
+                this.currentTag.id = (
+                    Math.max(...tags.map((e) => +e.id)) + 1
+                ).toString();
+            } else {
+                this.currentTag.id = "1";
+            }
         }
     }
     delTag() {
-        if (window.confirm("是否删除该标签?") && this.tag) {
-            this.$store.commit("deleteTag", this.tag.id);
+        if (window.confirm("是否删除该标签?") && this.currentTag) {
+            this.$store.commit("deleteTag", this.currentTag.id);
             this.$router.replace("/labels");
         }
+    }
+    @Watch("currentTag", {
+        immediate: false,
+        deep: true,
+    })
+    oncurrentTagChanged(val: TagData) {
+        this.$store.commit("addTag", val);
     }
 }
 </script>
@@ -91,6 +104,11 @@ export default class EditLabel extends Mixins(VueScroll) {
         font-size: 16px;
         padding-left: 15px;
         border-bottom: 1px solid rgb(221, 221, 224);
+
+        h3 {
+            font-size: 16px;
+            text-align: center;
+        }
 
         input {
             border: none;

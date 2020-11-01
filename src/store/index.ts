@@ -17,18 +17,22 @@
           }  
         },
         addTag(state,tag: TagData){ 
-          if(state.tagsRecord.some(e=>e.name===tag.name)){
+          if(state.tagsRecord.some(e=>e.name===tag.name && e.id!==tag.id)){
               return alert("标签已存在")
           }
           else{
-              const maxid = Math.max(...state.tagsRecord.map(e=>parseInt(e.id)));
-              state.tagsRecord.push({
-                  id:(maxid+1).toString(),
+            const currtag = state.tagsRecord.find(e=>e.id===tag.id)
+            if(currtag){
+              currtag.name=tag.name;
+              currtag.icon=tag.icon;
+            }
+             else{state.tagsRecord.push({
+                  id:tag.id,
                   name:tag.name,
                   icon:tag.icon
               });
-              store.commit("saveTags");
-              return alert("保存成功")
+            } 
+              store.commit("saveTags"); 
           }  
         
       },
