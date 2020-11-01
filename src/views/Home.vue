@@ -4,7 +4,7 @@
         <key-page :money.sync="record.money" @submit="saveRecord" />
         <tabs :value.sync="record.type" :tab-items="recordTypes" />
         <notes :note-value.sync="record.noteVaule" />
-        <tags :selectedTags="record.selectedTags" />
+        <TagsView class-prefix="home" @iconClick="toggleTagSelected" :selecteds.sync="record.selectedTags" />
     </div>
 </layout>
 </template>
@@ -16,6 +16,7 @@ import Notes from "@/components/home/Notes.vue";
 import Tags from "@/components/home/Tags.vue";
 import Tabs from "@/components/Tabs.vue";
 import VueScroll from "@/mixins/vueSroll";
+import TagsView from "@/components/label/TagsView.vue";
 import {
     recordType
 } from "@/constants/preject";
@@ -34,12 +35,13 @@ import {
         Tabs,
         KeyPage,
         Layout,
+        TagsView,
     },
 })
 export default class Home extends Mixins(VueScroll) {
     recordList = this.$store.state.moneyRecord;
     recordTypes = recordType;
-    record = {
+    record: MoneyObject = {
         type: "-",
         noteVaule: "",
         selectedTags: [],
@@ -54,6 +56,15 @@ export default class Home extends Mixins(VueScroll) {
         this.record.saveTime = undefined;
         alert("保存成功！");
     }
+    toggleTagSelected(id: string) {
+        const index = this.record.selectedTags.indexOf(id);
+        if (index > -1) {
+            this.record.selectedTags.splice(index, 1);
+        } else {
+            this.record.selectedTags.push(id);
+        }
+        console.log(this.record.selectedTags);
+    }
 }
 </script>
 
@@ -63,5 +74,21 @@ export default class Home extends Mixins(VueScroll) {
     flex-direction: column-reverse;
     justify-content: flex-start;
     height: 100%;
+}
+
+::v-deep {
+    .home-icons {
+        font-size: 8px;
+        padding: 8px 8px;
+
+        .tag-item {
+            width: 15%;
+            padding: 4px 0;
+
+            span {
+                font-size: 1em;
+            }
+        }
+    }
 }
 </style>

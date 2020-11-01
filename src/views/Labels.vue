@@ -1,7 +1,7 @@
 <template>
 <layout>
     <div class="tags">
-        <TagsView />
+        <TagsView @iconClick="gotoInfo" />
     </div>
     <router-link class="add-btn" :to="`/labels/edit/add`">
         <icon name="icon-add" />
@@ -30,6 +30,9 @@ import TagHelper from "@/mixins/tagHelper";
 export default class Labels extends Mixins(TagHelper, VueScroll) {
     get tags() {
         return this.$store.state.tagsRecord;
+    }
+    gotoInfo(item: string) {
+        this.$router.push("/labels/edit/" + item);
     }
 }
 </script>
