@@ -1,6 +1,6 @@
 <template>
 <div>
-    <ol class="record-statistic">
+    <ol class="record-statistic" v-if="groupedList.length > 0">
         <li v-for="(group, index) in groupedList" :key="index" class="record-title">
             <h3>
                 <span>{{ handleDate(group.title) }}</span>
@@ -15,16 +15,13 @@
             </ol>
         </li>
     </ol>
-    <div class="no-record">目前还没有记录</div>
+    <div class="no-record" v-else>目前还没有记录</div>
 </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import dayjs from "dayjs";
-import {
-    recordType
-} from "@/constants/preject";
 import {
     Component,
     PropSync
@@ -35,11 +32,11 @@ import {
 
 @Component
 export default class Statistics extends Vue {
-    recordType = recordType;
     @PropSync("record", {
         type: String,
+        default: "-",
     })
-    record = "-";
+    recordType: string | undefined;
     recordList = this.$store.state.monryRecord as MoneyObject[];
     tagList = this.$store.state.tagsRecord as TagData[];
 
@@ -51,7 +48,7 @@ export default class Statistics extends Vue {
         };
         const hashItem: itemType[] = [];
         const newRecodList = clone(this.recordList).filter(
-            (e) => e.type === this.record
+            (e) => e.type === this.recordType
         );
         newRecodList.sort(
             (a, b) => dayjs(b.saveTime).valueOf() - dayjs(a.saveTime).valueOf()
