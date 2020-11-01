@@ -5,7 +5,6 @@
             {{ item.name }}
         </li>
     </ul>
-    <button @click="addTag">新增标签</button>
 </div>
 </template>
 
