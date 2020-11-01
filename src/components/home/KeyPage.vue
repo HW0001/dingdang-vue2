@@ -147,7 +147,7 @@ export default class Home extends Vue {
     }
 
     :nth-child(12) {
-        background-color: darken($bg, 4% * 6);
+        background-color: rgb(230, 182, 115);
     }
 }
 </style>

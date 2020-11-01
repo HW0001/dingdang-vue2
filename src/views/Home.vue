@@ -63,7 +63,7 @@ export default class Home extends Mixins(VueScroll) {
         } else {
             this.record.selectedTags.push(id);
         }
-        console.log(this.record.selectedTags);
+        console.log(this.record);
     }
 }
 </script>

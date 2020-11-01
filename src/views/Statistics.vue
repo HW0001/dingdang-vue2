@@ -46,6 +46,7 @@ export default class Statistics extends Mixins(VueScroll) {
     recordType = recordType;
     record = "-";
     recordList = this.$store.state.monryRecord as MoneyObject[];
+    tagList = this.$store.state.tagsRecord as TagData[];
 
     get groupedList() {
         type itemType = {
@@ -57,6 +58,7 @@ export default class Statistics extends Mixins(VueScroll) {
         const newRecodList = clone(this.recordList).filter(
             (e) => e.type === this.record
         );
+        console.log(newRecodList);
         newRecodList.sort(
             (a, b) => dayjs(b.saveTime).valueOf() - dayjs(a.saveTime).valueOf()
         );
@@ -81,8 +83,11 @@ export default class Statistics extends Mixins(VueScroll) {
         return hashItem;
     }
 
-    getTagsName(tag: TagData[]) {
-        return tag.map((e) => e.name).join(",") || "无";
+    getTagsName(tag: string[]) {
+        return (
+            tag.map((e) => this.tagList.find((i) => i.id === e)?.name).join(",") ||
+            "无"
+        );
     }
     handleDate(date: string) {
         const now = dayjs();
