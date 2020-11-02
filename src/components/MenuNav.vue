@@ -55,6 +55,7 @@ nav {
             color: white;
             height: 48px;
             padding: 4px;
+            transform: translateY(4px);
 
             span {
                 display: none;
