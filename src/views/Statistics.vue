@@ -2,7 +2,7 @@
 <layout>
     <tabs :tab-items="recordType" :value.sync="record" classPrefix="record" />
     <div class="separator"></div>
-    <line-diagram :moneyType.sync="record" />
+    <line-diagram :moneyType="record" :key="record" />
     <record-list :record.sync="record" />
 </layout>
 </template>

@@ -8,7 +8,7 @@ import echarts from "echarts";
 import dayjs from "dayjs";
 import {
     Component,
-    PropSync
+    Prop
 } from "vue-property-decorator";
 
 type Charts = {
@@ -18,23 +18,20 @@ type Charts = {
 @Component
 export default class LineDiagram extends Vue {
     dateType = "day";
-    @PropSync("moneyType", {
-        type: String,
-    })
-    currentMoneyType: string | undefined;
+    @Prop(String) moneyType: string | undefined;
     get recordList() {
         const lists = this.$store.state.monryRecord as MoneyObject[];
         if (lists.length !== 0) {
             return lists.filter((d) => {
                 return (
                     dayjs(d.saveTime).isAfter(dayjs().subtract(7, "d"), "d") &&
-                    d.type === this.currentMoneyType
+                    d.type === this.moneyType
                 );
             });
         } else return [] as MoneyObject[];
     }
     get title() {
-        return this.currentMoneyType === "-" ? "近七日支出" : "近七日收入";
+        return this.moneyType === "-" ? "近七日支出" : "近七日收入";
     }
     dateInterval: string[] = [];
 
@@ -75,6 +72,8 @@ export default class LineDiagram extends Vue {
 
     getStatisData() {
         const day = dayjs();
+        this.dateInterval.splice(0, this.dateInterval.length);
+        this.moneyTotal.splice(0, this.moneyTotal.length);
         for (let i = 6; i >= 0; i--) {
             const curret = day.subtract(i, "d");
             this.moneyTotal.push(
