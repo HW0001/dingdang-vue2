@@ -2,7 +2,8 @@
 const path = require("path");
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === "production" ? "/my-project/" : "/",
+  publicPath:
+    process.env.NODE_ENV === "production" ? "/dingdang-website/" : "/",
   chainWebpack: (config) => {
     const svgRule = config.module.rule("svg");
     // 清除已有的所有 loader。
