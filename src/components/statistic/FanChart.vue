@@ -9,11 +9,9 @@ import {
 } from "vue-property-decorator";
 
 @Component({
-    components: {
-        //  ECharts,
-    },
+    components: {},
 })
-export default class Statistics extends Vue {
+export default class FanChart extends Vue {
     polar = {
         title: {
             text: "极坐标双数值轴",

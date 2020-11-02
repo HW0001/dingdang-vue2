@@ -1,8 +1,8 @@
 <template>
 <layout>
     <tabs :tab-items="recordType" :value.sync="record" classPrefix="record" />
+    <NewEcharts />
     <record-list :record.sync="record" />
-    <GraphStatistic />
 </layout>
 </template>
 
@@ -11,7 +11,7 @@ import Layout from "@/components/Layout.vue";
 import Tabs from "@/components/Tabs.vue";
 import VueScroll from "@/mixins/vueSroll";
 import RecordList from "@/components/statistic/RecordList.vue";
-import GraphStatistic from "@/components/statistic/GraphStatistic.vue";
+import NewEcharts from "@/components/statistic/LineDiagram.vue";
 import {
     recordType
 } from "@/constants/preject";
@@ -25,7 +25,7 @@ import {
         Layout,
         Tabs,
         RecordList,
-        GraphStatistic,
+        NewEcharts,
     },
 })
 export default class Statistics extends Mixins(VueScroll) {
