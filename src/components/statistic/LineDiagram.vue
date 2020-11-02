@@ -1,5 +1,5 @@
 <template>
-<div id="main" class="main" v-if="recordList.length > 0"></div>
+<div id="main" class="main" v-show="recordList.length > 0"></div>
 </template>
 
 <script lang="ts">
@@ -7,7 +7,8 @@ import Vue from "vue";
 import echarts from "echarts";
 import dayjs from "dayjs";
 import {
-    Component
+    Component,
+    PropSync
 } from "vue-property-decorator";
 
 type Charts = {
@@ -17,27 +18,60 @@ type Charts = {
 @Component
 export default class LineDiagram extends Vue {
     dateType = "day";
-    moneyType = "-";
-    recordList: MoneyObject[] = [];
-    get title() {
-        return this.moneyType === "-" ? "近七日支出" : "近七日收入";
-    }
-    dateInterval: string[] = [];
-    moneyTotal: string[] = [];
-    created() {
+    @PropSync("moneyType", {
+        type: String,
+    })
+    currentMoneyType: string | undefined;
+    get recordList() {
         const lists = this.$store.state.monryRecord as MoneyObject[];
         if (lists.length !== 0) {
-            this.recordList = lists.filter((d) => {
+            return lists.filter((d) => {
                 return (
                     dayjs(d.saveTime).isAfter(dayjs().subtract(7, "d"), "d") &&
-                    d.type === this.moneyType
+                    d.type === this.currentMoneyType
                 );
             });
-        }
+        } else return [] as MoneyObject[];
     }
+    get title() {
+        return this.currentMoneyType === "-" ? "近七日支出" : "近七日收入";
+    }
+    dateInterval: string[] = [];
+
+    moneyTotal: string[] = [];
 
     charts: Charts | undefined = undefined;
-    opinionData = ["12", "22", "33", "4", "5"];
+
+    options = {
+        tooltip: {
+            trigger: "axis",
+        },
+        legend: {
+            data: ["近七日支出", "近七日收入"],
+        },
+        grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "3%",
+            containLabel: true,
+        },
+
+        xAxis: {
+            type: "category",
+            boundaryGap: false,
+            data: this.dateInterval,
+        },
+        yAxis: {
+            type: "value",
+        },
+
+        series: [{
+            name: this.title,
+            type: "line",
+            stack: "总量",
+            data: this.moneyTotal,
+        }, ],
+    };
 
     getStatisData() {
         const day = dayjs();
@@ -52,45 +86,16 @@ export default class LineDiagram extends Vue {
             this.dateInterval.push(curret.format("M-D"));
         }
     }
-    drawLine(id: string) {
+    drawLine() {
         if (this.recordList.length === 0) return;
-        this.charts = echarts.init(document.getElementById(id));
+        this.charts = echarts.init(document.getElementById("main"));
         if (!this.charts) return;
-        this.charts.setOption({
-            tooltip: {
-                trigger: "axis",
-            },
-            legend: {
-                data: ["近七日支出", "近七日收入"],
-            },
-            grid: {
-                left: "3%",
-                right: "4%",
-                bottom: "3%",
-                containLabel: true,
-            },
-
-            xAxis: {
-                type: "category",
-                boundaryGap: false,
-                data: this.dateInterval,
-            },
-            yAxis: {
-                type: "value",
-            },
-
-            series: [{
-                name: this.title,
-                type: "line",
-                stack: "总量",
-                data: this.moneyTotal,
-            }, ],
-        });
+        this.charts.setOption(this.options);
     }
     mounted() {
         this.getStatisData();
         this.$nextTick(function () {
-            this.drawLine("main");
+            this.drawLine();
         });
     }
 }
