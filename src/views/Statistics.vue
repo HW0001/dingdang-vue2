@@ -1,6 +1,7 @@
 <template>
 <layout>
     <tabs :tab-items="recordType" :value.sync="record" classPrefix="record" />
+    <div class="separator"></div>
     <line-diagram :moneyType.sync="record" />
     <record-list :record.sync="record" />
 </layout>
@@ -30,8 +31,12 @@ import {
 })
 export default class Statistics extends Mixins(VueScroll) {
     recordType = recordType;
-    record = "+";
+    record = "-";
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.separator {
+    height: 20px;
+}
+</style>
