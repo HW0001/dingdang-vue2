@@ -3,6 +3,7 @@
     <div class="page">
       <key-page :money.sync="record.money" @submit="saveRecord" />
       <tabs :value.sync="record.type" :tab-items="recordTypes" />
+      <div class="separator"></div>
       <form-input notes="备注：" :input-value.sync="record.noteVaule" />
       <form-input
         notes="时间："
@@ -77,6 +78,10 @@ export default class Home extends Mixins(VueScroll) {
   justify-content: flex-start;
   height: 100%;
   overflow: auto;
+}
+
+.separator {
+  height: 12px;
 }
 
 ::v-deep {

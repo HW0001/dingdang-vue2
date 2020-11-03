@@ -64,7 +64,7 @@ export default class FormInput extends Vue {
     input {
       font-size: inherit;
       border: none;
-      padding: 16px 8px;
+      padding: 8px 8px;
     }
 
     input[type="date"] {
