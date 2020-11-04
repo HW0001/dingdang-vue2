@@ -65,6 +65,9 @@ export default class LineDiagram extends Vue {
         type: "line",
         stack: "总量",
         data: this.moneyTotal,
+        itemStyle: {
+          borderWidth: 10,
+        },
       },
     ],
   };
